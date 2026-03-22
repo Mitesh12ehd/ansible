@@ -1,1 +1,2 @@
-192.46.209.134 ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_user=root
+[linux_server]
+172.105.60.230 ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_user=root
