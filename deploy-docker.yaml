@@ -1,6 +1,19 @@
 ---
+- name: Wait for ssh connection
+  hosts: all
+  tasks:  
+    - name: Ensure ssh port open
+      wait_for:
+        port: 22
+        delay: 10
+        timeout: 100
+        search_regex: OpenSSH
+        host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+      vars: 
+        ansible_connection: local # to check the task with our localhost 
+
 - name: Install docker, docker compose
-  hosts: ec2_server
+  hosts: all
   become: true
   tasks:  
 
@@ -26,7 +39,7 @@
 # to execute docker command without sudo
 # sudo usermod -aG docker ec2-user
 - name: Add ec2 user to docker group
-  hosts: ec2_server
+  hosts: all
   become: true
   tasks:
     - name: Add ec2 user to docker group
@@ -40,7 +53,7 @@
       meta: reset_connection
 
 - name: Start docker containers
-  hosts: ec2_server
+  hosts: all
   vars_files:
     - project-vars
   tasks:
