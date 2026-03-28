@@ -51,7 +51,6 @@
 
     - name: Docker login
       community.docker.docker_login:
-        registry_url: https://index.docker.io/v1
         username: miteshch
         password: "{{docker_password}}"
 
