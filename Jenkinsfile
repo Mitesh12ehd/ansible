@@ -18,7 +18,7 @@ pipeline{
                             )
                         ]){ 
                             // copy ec2 credentials (ssh private key to connect to ec2 machines) to ansible server
-                            sh "scp ${keyfile} root@172.105.52.24:/root/ssh-key.pem"
+                            sh 'scp $keyfile root@172.105.52.24:/root/ssh-key.pem'
                         }
                     }
                 }
