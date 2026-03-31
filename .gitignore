@@ -1,1 +1,3 @@
 project-vars
+k8-cluster-kubeconfig.yaml
+/k8s-env/
