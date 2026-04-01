@@ -45,8 +45,7 @@ pipeline{
                         remote.identityFile = keyfile
 
                         // execute command
-                        sshCommand remote: remote, command: "ls -l"
-                        sshCommand remote: remote, command: "ls"
+                        sshCommand remote: remote, command: "ansible-playbook deploy-docker.yaml"
                     }
                 }
             }
