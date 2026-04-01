@@ -1,5 +1,8 @@
 pipeline{
     agent any
+    environment{
+        ANSIBLE_SERVER = "172.105.52.24 "
+    }
     stages{
         stage("copy files to ansible server"){
             steps {
@@ -8,7 +11,7 @@ pipeline{
                     sshagent(["ansible-server-key"]){
                         
                         // copy ansible files to ansible-server
-                        sh "scp -o StrictHostKeyChecking=no ansible/* root@172.105.52.24:/root"
+                        sh "scp -o StrictHostKeyChecking=no ansible/* root@${ANSIBLE_SERVER}:/root"
                         
                         withCredentials([
                             sshUserPrivateKey(
@@ -18,7 +21,7 @@ pipeline{
                             )
                         ]){ 
                             // copy ec2 credentials (ssh private key to connect to ec2 machines) to ansible server
-                            sh 'scp $keyfile root@172.105.52.24:/root/ssh-key.pem'
+                            sh 'scp $keyfile root@$ANSIBLE_SERVER:/root/ssh-key.pem'
                         }
                     }
                 }
@@ -31,7 +34,7 @@ pipeline{
 
                     def remote = [:]
                     remote.name = "ansible-server"
-                    remote.host = "172.105.52.24"
+                    remote.host = ANSIBLE_SERVER
                     remote.allowAnyHosts = true
                     
                     withCredentials([
